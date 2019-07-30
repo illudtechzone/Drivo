@@ -1,5 +1,7 @@
 {
   "name": "Drivo",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
