@@ -7,6 +7,7 @@ import { GoogleMap, Environment, GoogleMapOptions, GoogleMaps, Marker, GoogleMap
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  status : Boolean=false;
 mapCanvas: GoogleMap;
 lat = 10.754090;
 lon = 76.547018;
