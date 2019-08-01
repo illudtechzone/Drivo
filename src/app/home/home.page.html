@@ -11,14 +11,13 @@
 <ion-content>
     <div id="map_canvas">
       </div>
-    <ion-item class="card2">
+    <ion-item>
         <ion-avatar class="profilepicsize" slot="start">
             <img src="/assets/images/profile3.jpeg">
         </ion-avatar>
-        <ion-card-title slot="start">Sooraj</ion-card-title>
-      <ion-card-title slot="end">  status</ion-card-title>
+        <ion-text slot="start">Sooraj </ion-text>
+        <ion-card-subtitle slot="start">{{status}}</ion-card-subtitle>
+      <ion-toggle color="success" [(ngModel)]="status" slot="start"></ion-toggle>
 
-      <ion-toggle color="success" [(ngModel)]="status" slot="end"></ion-toggle>
-      <ion-card-title slot="end">{{status}}</ion-card-title>
     </ion-item>
 </ion-content>

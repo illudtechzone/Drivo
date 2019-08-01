@@ -22,7 +22,7 @@ lon = 76.547018;
 
         this.lat = resp.coords.latitude;
         this.lon = resp.coords.longitude;
-        alert(resp.coords.latitude);
+      //  alert(resp.coords.latitude);
         this.showMap();
 
        }).catch((error) => {
