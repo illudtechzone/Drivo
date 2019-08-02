@@ -10,12 +10,12 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+    loadChildren: './home/home.module#HomePageModule',
     canActivate: [SecurityService]
   },
   {
     path: 'list',
-    loadChildren: () => import('./list/list.module').then(m => m.ListPageModule)
+    loadChildren: './list/list.module#ListPageModule'
   },
   { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
