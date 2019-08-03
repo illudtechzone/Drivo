@@ -9,15 +9,17 @@
   </ion-header>
 
 <ion-content>
+
     <div id="map_canvas">
       </div>
-    <ion-item>
-        <ion-avatar class="profilepicsize" slot="start">
-            <img src="/assets/images/profile3.jpeg">
-        </ion-avatar>
-        <ion-text slot="start">Sooraj </ion-text>
-        <ion-card-subtitle slot="start">{{status}}</ion-card-subtitle>
-      <ion-toggle color="success" [(ngModel)]="status" slot="start"></ion-toggle>
-
-    </ion-item>
+      
+   
 </ion-content>
+<ion-footer>
+  
+  <ion-item>
+      <ion-label>Online</ion-label>
+      <ion-toggle ></ion-toggle>
+    </ion-item>
+    
+</ion-footer>

@@ -17,7 +17,7 @@ export class SignUpPage implements OnInit {
     });
     this.configureKeycloakAdmin();
   }
-
+  firstName: string;
   username: string;
   password: string;
   email: string;

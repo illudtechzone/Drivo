@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button></ion-back-button>
+    <ion-title>Rider Details</ion-title>
+  </ion-toolbar>
+  <ion-back-button></ion-back-button>
+</ion-header>
+
+<ion-content>
+    <ion-segment>
+        <ion-segment-button checked value="Details" (ionSelect)="segmentButtonClicked($event)">
+            <ion-icon name="document" v ></ion-icon>
+         </ion-segment-button>
+        <ion-segment-button  value="Map" (ionSelect)="segmentButtonClicked($event)">
+          <ion-icon name="Map" ></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+      
+<ion-card *ngIf="segmentName == 'Details'" >
+  <ion-item >
+    <ion-avatar class="profile">
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+      </ion-avatar>
+    <ion-text>manu</ion-text>
+    </ion-item>
+    <ion-item lines="none">
+    
+        <ion-text slot="start">Distance:</ion-text>
+        <ion-text slot="end">10km</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+        
+        <ion-text slot="start">from    :</ion-text>
+        <ion-text slot="end">palakkad</ion-text>
+        </ion-item>
+        <ion-item lines="none">
+    
+            <ion-text slot="start">to    :</ion-text>
+            <ion-text slot="end">pathiripala junction</ion-text>
+          </ion-item>    
+</ion-card>
+<div *ngIf="segmentName == 'Map'" id="map_canvas">
+</div>
+</ion-content>
+<ion-footer>
+    <ion-row > 
+        <ion-col>
+        <ion-button expand="full" (click)="arived()">
+          arived
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="full">
+          <ion-icon name="call"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="full">
+          <ion-icon name="mail"></ion-icon>
+        </ion-button>
+      </ion-col>
+      </ion-row>
+    
+</ion-footer>

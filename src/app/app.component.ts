@@ -32,10 +32,16 @@ export class AppComponent {
       url: '/profile',
       icon: 'contact'
     },
+    
     {
       title: 'Home',
       url: '/home',
       icon: 'home'
+    },
+    {
+      title: 'Rider',
+      url: '/startride',
+      icon: 'contact'
     },
     {
       title: 'Logout',

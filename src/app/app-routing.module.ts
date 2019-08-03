@@ -20,7 +20,10 @@ const routes: Routes = [
   { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   { path: 'signup', loadChildren: './pages/sign-up/sign-up.module#SignUpPageModule' },
-  { path: 'doc-upload', loadChildren: './pages/doc-upload/doc-upload.module#DocUploadPageModule' }
+  { path: 'doc-upload', loadChildren: './pages/doc-upload/doc-upload.module#DocUploadPageModule' },
+  { path: 'riderdetails', loadChildren: './pages/rider-details/rider-details.module#RiderDetailsPageModule' },
+  { path: 'startride', loadChildren: './pages/start-ride/start-ride.module#StartRidePageModule' },
+  { path: 'invoice', loadChildren: './pages/invoice/invoice.module#InvoicePageModule' }
 ];
 
 @NgModule({
