@@ -12,6 +12,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -23,6 +25,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
+    Camera,
     Geolocation,
     StatusBar,
     SplashScreen,

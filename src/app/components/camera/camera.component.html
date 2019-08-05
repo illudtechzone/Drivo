@@ -1,3 +1,8 @@
-<p>
-  camera works!
-</p>
+<ion-card *ngIf="image!='none'" >
+  <img src="{{image}}">
+</ion-card>
+  <ion-item>
+  <ion-button expand="full" (click)="click()" slot="start">try again</ion-button>
+  <ion-button expand="full" (click)="dismiss()" slot="start">confirm</ion-button>
+  <ion-button expand="full" (click)="dismiss()" slot="start">cancel</ion-button>
+</ion-item>

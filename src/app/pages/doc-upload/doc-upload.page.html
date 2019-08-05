@@ -9,13 +9,20 @@
 <ion-content>
 <div class="buttonPostion"> 
 <div class=" buttonPostion animated  fadeInLeft delay-2s">
-  <ion-button expand="block" class="button" color="tertiary" (click)="presentModal()">upload driving licence</ion-button>
+  <ion-button expand="block" class="button" color="tertiary" (click)="presentModal('licence')">upload driving licence</ion-button>
 </div>
 <div class=" buttonPostion animated  	fadeInRight delay-2s">
-   <ion-button expand="block"  class="button" color="tertiary">upload Rc book</ion-button>
+   <ion-button expand="block"  class="button" color="tertiary"  (click)="presentModal('rc')">upload Rc book</ion-button>
 </div>
 <div class="buttonPostion animated  fadeInLeft delay-2s">
-   <ion-button expand="block" class="button" color="tertiary" >upload adhaar </ion-button>
+   <ion-button expand="block" class="button" color="tertiary"  (click)="presentModal('aadhaar')" >upload aadhaar </ion-button>
   </div>
 </div>
+
 </ion-content>
+<ion-footer>
+    <div  text-center>
+        <ion-button  [routerLink]="'/home'">Continue</ion-button>
+       
+    </div>
+</ion-footer>
