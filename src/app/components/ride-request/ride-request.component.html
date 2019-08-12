@@ -8,22 +8,22 @@
    <ion-item lines="none">
     
     <ion-text slot="start">Distance:</ion-text>
-    <ion-text slot="end">10km</ion-text>
+    <ion-text slot="end">{{riderInfo.distance}}</ion-text>
   </ion-item>
   <ion-item lines="none">
     
-    <ion-text slot="start">from    :</ion-text>
-    <ion-text slot="end">palakkad</ion-text>
+    <ion-text slot="start">From:</ion-text>
+    <ion-text slot="end">{{riderInfo.pickUp}}</ion-text>
     </ion-item>
 
     <ion-item lines="none">
     
-      <ion-text slot="start">to    :</ion-text>
-      <ion-text slot="end">pathiripala junction</ion-text>
+      <ion-text slot="start">To:</ion-text>
+      <ion-text slot="end">{{riderInfo.destination}}</ion-text>
     </ion-item>
      <ion-item lines="none">
     
-        <ion-button expand="block" slot="start"  color="primary">Confirm</ion-button>
+        <ion-button expand="block" slot="start"  color="primary" (click)="confirmRequest()">Confirm</ion-button>
         
         <ion-button expand="block" slot="end"  color="primary">Cancel</ion-button>
         
