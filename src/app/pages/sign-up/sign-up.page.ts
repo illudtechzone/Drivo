@@ -13,7 +13,7 @@ export class SignUpPage implements OnInit {
   constructor(private navCtrl: NavController, private toastController: ToastController, private oauthService: OAuthService) {
     this.kcAdminClient = new KeycloakAdminClient();
     this.kcAdminClient.setConfig({
-      baseUrl: 'http://35.196.86.249:8080/auth'
+      baseUrl: 'http://34.74.192.113:8888/auth'
     });
     this.configureKeycloakAdmin();
   }
@@ -30,11 +30,13 @@ export class SignUpPage implements OnInit {
       username: 'admin',
       password: 'karma123',
       grantType: 'password',
-      clientId: 'admin-cli'
+      clientId: 'admin-cli',
+      clientSecret: '7f8a027d-36dd-48fa-b09b-b26762029aa1',
     });
   }
 
   signup() {
+    console.log('sign up started');
     const map = new Map([
       ['phone', this.phone],
       ['value', 3]

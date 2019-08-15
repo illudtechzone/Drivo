@@ -21,6 +21,11 @@
       <ion-text slot="start">To:</ion-text>
       <ion-text slot="end">{{riderInfo.destination}}</ion-text>
     </ion-item>
+    <ion-item lines="none">
+    
+      <ion-text slot="start">Id:</ion-text>
+      <ion-input slot="end" [(ngModel)]="taskId"></ion-input>
+    </ion-item>
      <ion-item lines="none">
     
         <ion-button expand="block" slot="start"  color="primary" (click)="confirmRequest()">Confirm</ion-button>

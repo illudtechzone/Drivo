@@ -1,7 +1,9 @@
+import { CustomerService } from './../../services/customerService/customer.service';
 import { Component, OnInit } from '@angular/core';
 import { GoogleMap, Environment, GoogleMapOptions, GoogleMaps, Marker, GoogleMapsEvent } from '@ionic-native/google-maps';
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { RiderLocationInfo } from 'src/app/api/models/rider-location-info';
 @Component({
   selector: 'app-start-ride',
   templateUrl: './start-ride.page.html',
@@ -10,16 +12,18 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 export class StartRidePage implements OnInit {
 
   constructor(private geoLocation: Geolocation,
-              private navController: NavController) {
+              private navController: NavController,
+              private customerService:CustomerService) {
 
     }
-rideStatus:string = 'reached';
+rideStatus = 'reached';
 isMoreInfo: Boolean = false;
 mapCanvas: GoogleMap;
 lat = 10.754090;
 lon = 76.547018;
+riderLocationInfo: RiderLocationInfo = {};
 ngOnInit() {
-
+  this.riderLocationInfo = this.customerService.getRiderLocationInfo();
 }
 
   ionViewWillEnter() {

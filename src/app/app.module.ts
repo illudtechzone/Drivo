@@ -14,6 +14,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -29,7 +30,12 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
     Geolocation,
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

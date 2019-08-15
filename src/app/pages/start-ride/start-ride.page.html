@@ -18,15 +18,15 @@
     </ion-item>
     <ion-item lines="none">
       <ion-text slot="start">From     :</ion-text>
-      <ion-text slot="end"> mankara</ion-text>
+      <ion-text slot="end"> {{riderLocationInfo.pickUp}}</ion-text>
     </ion-item>
     <ion-item lines="none">
-      <ion-text slot="start">to       :</ion-text>
-      <ion-text slot="end">pathiripala junction</ion-text>
+      <ion-text slot="start">To       :</ion-text>
+      <ion-text slot="end">{{riderLocationInfo.destination}}</ion-text>
     </ion-item>
     <ion-item lines="none" *ngIf="isMoreInfo">
       <ion-text slot="start">Distance :</ion-text>
-      <ion-text slot="end">10km</ion-text>
+      <ion-text slot="end">{{riderLocationInfo.distance}}</ion-text>
     </ion-item>
     <ion-item lines="none" *ngIf="isMoreInfo">
       <ion-text slot="start">reach in : </ion-text>
