@@ -1,4 +1,4 @@
-import { RiderLocationInfo } from './../../api/models/rider-location-info';
+
 import { RiderDTO } from './../../api/models/rider-dto';
 import { Injectable } from '@angular/core';
 
@@ -7,12 +7,12 @@ import { Injectable } from '@angular/core';
 })
 export class CustomerService {
   private riderDto : RiderDTO={};
-  private riderLocationInfo:RiderLocationInfo={};
+  private riderLocationInfo:any={};
   constructor() { }
-  setRiderLocationInfo(riderLocation :RiderLocationInfo){
+  setRiderLocationInfo(riderLocation :any){
     this.riderLocationInfo = riderLocation;
   }
-  getRiderLocationInfo():RiderLocationInfo{
+  getRiderLocationInfo():any{
     return this.riderLocationInfo;
   }
 }

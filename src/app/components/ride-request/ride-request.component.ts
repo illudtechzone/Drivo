@@ -1,7 +1,4 @@
-import { InitiateRide } from './../../api/models/initiate-ride';
-import { CustomerService } from './../../services/customerService/customer.service';
-import { RiderLocationInfo } from './../../api/models/rider-location-info';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommandResourceService, QueryResourceService } from 'src/app/api/services';
 import { NavController } from '@ionic/angular';
 
@@ -14,37 +11,36 @@ export class RideRequestComponent implements OnInit {
 
   constructor(private commandResource: CommandResourceService,
               private navCtrl: NavController,
-              private customerService: CustomerService,
               private queryResource: QueryResourceService) { }
-  riderInfo: RiderLocationInfo = {destination: 'Palakkad - Ponnani Road, Mankara, Kerala 678613',
-pickUp: 'Palakkad - Ponnani Rd Pathirippala, Kerala 678642',
-distance: '10 km'
-};
-processInstanceId = '';
+ @Input()
+request: any;
+processInstanceId = '12094';
 taskId = '';
   ngOnInit() {}
 
   confirmRequest() {
     this.queryResource.getTasksUsingGET({processInstanceId: this.processInstanceId}).subscribe(result => {
-      console.log('confirmed sucess fully', result);
-      this.customerService.setRiderLocationInfo(this.riderInfo);
-      this.navCtrl.navigateForward('/startride');
+      console.log('confirmed     fully', result);
+      this.taskId = result.data[0].executionId;
+      console.log('confirmed     task id',this.taskId);
+      this.initiateRide();
     },
     err => {
       console.log('error making accept ride', err);
 
     });
-    this.initiateRide();
+
   }
 
   initiateRide() {
-    this.commandResource.collectInformationsUsingPOST({taskId: this.taskId, initiateRide: {destination: this.riderInfo.destination,
-      distance: this.riderInfo.distance, pickUp: this.riderInfo.pickUp}}).subscribe(result => {
-      console.log('sucess collectInformations ', result);
-    },
-    err => {
-      console.log('error collectInformations ', err);
-    });
-
+    // this.commandResource.collectInformationsUsingPOST({taskId: this.taskId, defaultInfoRequest: {destination: this.request.destination,
+    //    distance: this.request.distance, pickUp: this.request.pickUp}}).subscribe(result => {
+    //    console.log('sucess collectInformations ', result);
+    //    
+    //  },
+    //  err => {
+    //    console.log('error collectInformations ', err);
+    //  });
+    this.navCtrl.navigateForward('/startride');
   }
 }

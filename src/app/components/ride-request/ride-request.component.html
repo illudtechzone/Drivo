@@ -8,23 +8,18 @@
    <ion-item lines="none">
     
     <ion-text slot="start">Distance:</ion-text>
-    <ion-text slot="end">{{riderInfo.distance}}</ion-text>
+    <ion-text slot="end">{{request.distance}}</ion-text>
   </ion-item>
   <ion-item lines="none">
     
     <ion-text slot="start">From:</ion-text>
-    <ion-text slot="end">{{riderInfo.pickUp}}</ion-text>
+    <ion-text slot="end">{{request.pickUp}}</ion-text>
     </ion-item>
 
     <ion-item lines="none">
     
       <ion-text slot="start">To:</ion-text>
-      <ion-text slot="end">{{riderInfo.destination}}</ion-text>
-    </ion-item>
-    <ion-item lines="none">
-    
-      <ion-text slot="start">Id:</ion-text>
-      <ion-input slot="end" [(ngModel)]="taskId"></ion-input>
+      <ion-text slot="end">{{request.destination}}</ion-text>
     </ion-item>
      <ion-item lines="none">
     

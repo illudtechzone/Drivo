@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../components/components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,6 +10,7 @@ import { ListPage } from './list.page';
 @NgModule({
   imports: [
     CommonModule,
+    ComponentsModule,
     FormsModule,
     IonicModule,
     RouterModule.forChild([
@@ -18,6 +20,6 @@ import { ListPage } from './list.page';
       }
     ])
   ],
-  declarations: [ListPage]
+  declarations: [ListPage],
 })
 export class ListPageModule {}

@@ -14,7 +14,10 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { UtilService } from './services/util.service';
+import { ConfigsModule } from './configs/configs.module';
+import { IonicStorageModule } from '@ionic/storage';
+import { AuthInterceptor } from './services/security/auth-interceptor';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -23,17 +26,22 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     IonicModule.forRoot(),
     AppRoutingModule,
     OAuthModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    ConfigsModule,  IonicStorageModule.forRoot({
+      name: '__mydb',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
   ],
   providers: [
     Camera,
+    UtilService,
     Geolocation,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptorService,
+      useClass: AuthInterceptor,
       multi: true
     }
   ],

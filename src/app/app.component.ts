@@ -5,21 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { JwksValidationHandler, OAuthService, AuthConfig } from 'angular-oauth2-oidc';
 
-
-export const authConfig: AuthConfig = {
-  issuer: 'http://34.74.192.113:8888/auth/realms/RedAlert',
-  redirectUri: window.location.origin,
-  clientId: 'account',
-  scope: 'openid profile email',
-  dummyClientSecret: 'de33f012-48fc-43c0-bf57-c2472a61a614',
-  tokenEndpoint: 'http://34.74.192.113:8888/auth/realms/RedAlert/protocol/openid-connect/token',
-  userinfoEndpoint: 'http://34.74.192.113:8888/auth/realms/RedAlert/protocol/openid-connect/userinfo',
-  oidc: false,
-  requireHttps: false
-
-
-};
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -40,7 +25,7 @@ export class AppComponent {
     },
     {
       title: 'Rider',
-      url: '/startride',
+      url: '/list',
       icon: 'contact'
     },
     {
@@ -59,7 +44,6 @@ export class AppComponent {
     private navCtrl: NavController,
   ) {
     this.initializeApp();
-    this.configureOAuth();
   }
   logout() {
     console.log('Logout clicked');
@@ -81,11 +65,5 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-  }
-  configureOAuth(): any {
-    this.oauthService.configure(authConfig);
-    this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-    // Load Discovery Document and then try to login the user
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
   }
 }

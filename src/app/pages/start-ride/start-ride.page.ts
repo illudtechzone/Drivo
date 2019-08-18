@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { GoogleMap, Environment, GoogleMapOptions, GoogleMaps, Marker, GoogleMapsEvent } from '@ionic-native/google-maps';
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { RiderLocationInfo } from 'src/app/api/models/rider-location-info';
 @Component({
   selector: 'app-start-ride',
   templateUrl: './start-ride.page.html',
@@ -21,7 +20,7 @@ isMoreInfo: Boolean = false;
 mapCanvas: GoogleMap;
 lat = 10.754090;
 lon = 76.547018;
-riderLocationInfo: RiderLocationInfo = {};
+riderLocationInfo: any = {};
 ngOnInit() {
   this.riderLocationInfo = this.customerService.getRiderLocationInfo();
 }
