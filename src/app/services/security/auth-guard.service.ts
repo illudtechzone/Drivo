@@ -13,8 +13,11 @@ export class AuthGuardService implements CanActivate {
               private navController: NavController) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.oauthService.hasValidAccessToken()) {
+      console.log('Check has vaildAcessToken '+ this.oauthService.hasValidAccessToken());
+
       return true;
     }
+
     this.navController.navigateRoot('/login');
     return false;
   }

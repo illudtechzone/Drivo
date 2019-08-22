@@ -15,24 +15,19 @@
             
               <ion-item lines="none">
                 <ion-text slot="start">From     :</ion-text>
-                <ion-text slot="end"> mankara</ion-text>
+                <ion-text slot="end"> {{travelInfo.pickUp}}</ion-text>
               </ion-item>
               <ion-item lines="none">
                 <ion-text slot="start">To       :</ion-text>
-                <ion-text slot="end">Pathiripala junction</ion-text>
+                <ion-text slot="end">{{travelInfo.destination}}</ion-text>
               </ion-item>
               <ion-item lines="none">
                 <ion-text slot="start">Distance :</ion-text>
-                <ion-text slot="end">10km</ion-text>
+                <ion-text slot="end">{{travelInfo.distance}}</ion-text>
               </ion-item>
-              <ion-item lines="full" >
-                <ion-text slot="start">Reached in : </ion-text>
-                <ion-text slot="end">10 min</ion-text>
-              </ion-item>
-              <ion-item lines="full">
-  
+              <ion-item>
                     <ion-text slot="start">Totel cost : </ion-text>
-                <ion-text slot="end">40 rs</ion-text>
+                <ion-text slot="end">{{travelInfo.distance*4}} rs</ion-text> 
               </ion-item>
               <div>
                 <ion-button expand="full" routerLink="/home">

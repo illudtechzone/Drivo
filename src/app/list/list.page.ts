@@ -1,3 +1,4 @@
+import { UtilService } from './../services/util.service';
 import { RideRequestComponent } from './../components/ride-request/ride-request.component';
 import { QueryResourceService } from 'src/app/api/services';
 import { Component, OnInit } from '@angular/core';
@@ -11,7 +12,8 @@ export class ListPage implements OnInit {
   private selectedItem: any;
 
    rideRequests: any[] = [{}];
-  constructor(private queryResourceService: QueryResourceService) {
+  constructor(private queryResourceService: QueryResourceService,
+    private util:UtilService) {
   }
 
   ngOnInit() {
@@ -23,16 +25,22 @@ export class ListPage implements OnInit {
   //   this.router.navigate(['/list', JSON.stringify(item)]);
   // }
   getAllRideRequests() {
+    this.util.createLoader()
+      .then(loader => {
     let request: any [];
     this.queryResourceService.getAllOpenBookingsUsingGET({}).subscribe(
       result => {
         console.log('getting all bookings', result);
         this.rideRequests = result;
         console.log(' array getting all bookings', this.rideRequests);
+        loader.dismiss();
       },
       err => {
         console.log('err getting all bookings', err);
+        loader.dismiss();
       }
     );
-  }
+  });
+}
+
 }

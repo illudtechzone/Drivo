@@ -8,8 +8,9 @@ import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { PageOfDriver } from '../models/page-of-driver';
-import { DefaultInfoRequest } from '../models/default-info-request';
+import { OpenBookings } from '../models/open-bookings';
 import { DataResponse } from '../models/data-response';
+import { DefaultInfoRequest } from '../models/default-info-request';
 
 /**
  * Query Resource
@@ -183,7 +184,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  getAllOpenBookingsUsingGETResponse(params: QueryResourceService.GetAllOpenBookingsUsingGETParams): __Observable<__StrictHttpResponse<Array<DefaultInfoRequest>>> {
+  getAllOpenBookingsUsingGETResponse(params: QueryResourceService.GetAllOpenBookingsUsingGETParams): __Observable<__StrictHttpResponse<Array<OpenBookings>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -243,7 +244,7 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Array<DefaultInfoRequest>>;
+        return _r as __StrictHttpResponse<Array<OpenBookings>>;
       })
     );
   }
@@ -338,9 +339,9 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  getAllOpenBookingsUsingGET(params: QueryResourceService.GetAllOpenBookingsUsingGETParams): __Observable<Array<DefaultInfoRequest>> {
+  getAllOpenBookingsUsingGET(params: QueryResourceService.GetAllOpenBookingsUsingGETParams): __Observable<Array<OpenBookings>> {
     return this.getAllOpenBookingsUsingGETResponse(params).pipe(
-      __map(_r => _r.body as Array<DefaultInfoRequest>)
+      __map(_r => _r.body as Array<OpenBookings>)
     );
   }
 

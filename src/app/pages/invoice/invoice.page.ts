@@ -1,3 +1,4 @@
+import { CustomerService } from './../../services/customerService/customer.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InvoicePage implements OnInit {
 
-  constructor() { }
+  travelInfo:any={}
+
+  constructor(private customerService:CustomerService) {
+
+   }
 
   ngOnInit() {
+
+    this.travelInfo=this.customerService.getRiderLocationInfo();
+
   }
 
 }

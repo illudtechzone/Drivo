@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -11,7 +11,7 @@
 
 <ion-content>
   <ion-list *ngFor="let request of rideRequests" >
-    <app-ride-request *ngIf="request.distance!=null" [request]="request"></app-ride-request>
+    <app-ride-request *ngIf="request.destination!=null && request.pickUp!=null" [request]="request"></app-ride-request>
   </ion-list>
 
 </ion-content>

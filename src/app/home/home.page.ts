@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GoogleMap, Environment, GoogleMapOptions, GoogleMaps, Marker, GoogleMapsEvent} from '@ionic-native/google-maps';
 @Component({
@@ -6,14 +6,15 @@ import { GoogleMap, Environment, GoogleMapOptions, GoogleMaps, Marker, GoogleMap
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
-  status : Boolean=false;
+export class HomePage implements OnInit{
+  status : boolean=false;
 mapCanvas: GoogleMap;
 lat = 10.754090;
 lon = 76.547018;
   constructor(private geoLocation: Geolocation) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
+
     console.log('ion view will enter method');
       this.currentLocation();
     }
@@ -30,8 +31,6 @@ lon = 76.547018;
        });
     }
     showMap() {
-      
-        // This code is necessary for browser
       console.log('loadMap');
 
       Environment.setEnv({
