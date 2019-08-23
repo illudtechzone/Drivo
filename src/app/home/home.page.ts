@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GoogleMap, Environment, GoogleMapOptions, GoogleMaps, Marker, GoogleMapsEvent} from '@ionic-native/google-maps';
+import { NotificationService } from '../services/notification.service';
+import { AccountResourceService } from '../api/services';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -11,12 +13,16 @@ export class HomePage implements OnInit{
 mapCanvas: GoogleMap;
 lat = 10.754090;
 lon = 76.547018;
-  constructor(private geoLocation: Geolocation) {}
+  constructor(private geoLocation: Geolocation,private notification: NotificationService,private accountResource: AccountResourceService) {}
 
   ngOnInit() {
 
     console.log('ion view will enter method');
       this.currentLocation();
+      this.accountResource.getAccountUsingGET().subscribe(data=>{
+        console.log("Account Details"+data.login);
+      });
+
     }
     currentLocation(){
       this.geoLocation.getCurrentPosition().then((resp) => {
