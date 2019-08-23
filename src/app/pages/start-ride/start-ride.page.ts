@@ -32,6 +32,7 @@ lon = 76.547018;
 riderLocationInfo: any = {};
 ngOnInit() {
   this.riderLocationInfo = this.customerService.getRiderLocationInfo();
+  console.log('rider location info ',this.riderLocationInfo);
   this.rideStatus = 'reached';
   this.directionsService.initMap().then(
     (data:any) => {
