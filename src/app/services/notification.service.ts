@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
-import { Platform } from '@ionic/angular';
+import { Platform, ModalController } from '@ionic/angular';
+import { RideRequestComponent } from '../components/ride-request/ride-request.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +13,7 @@ export class NotificationService {
   private title = 'WebSockets chat';
   private stompClient;
 
-  constructor( private localNotifications: LocalNotifications, private platform: Platform
+  constructor( private localNotifications: LocalNotifications, private platform: Platform,private modalController: ModalController
 
   ) {
 
@@ -33,19 +34,21 @@ initializeWebSocketConnection(userName ) {
     that.stompClient.subscribe('/user/topic/reply', message => {
       if (message.body) {
         that.platform.ready().then(() => {
-          console.log(message.body);
-          that.localNotifications.schedule({
-            title: 'Graeshoppe',
-            text: message.body,
-            foreground: true,
-            wakeup: true,
-            lockscreen: true,
-            sound: 'file://assets/sounds/beep.mp3'
-            // data: { secret: key }
-          });
+
+
+          let requestModal = this.modalController.create(RideRequestComponent, { request: message.body });
+          requestModal.present();
+
+
+
+
+
         });
 
       }
+
+
+
 
 });
 });
