@@ -1,3 +1,4 @@
+import { DirectionsService } from './../../services/directions.service';
 import { CommandResourceService } from 'src/app/api/services';
 import { KeycloakService } from './../../services/security/keycloak.service';
 import { Component, OnInit } from '@angular/core';
@@ -25,7 +26,8 @@ export class SignUpPage implements OnInit {
 
   constructor(private navCtrl: NavController, private util: UtilService,
               private keycloakService: KeycloakService,
-              private commandResourceService: CommandResourceService) {
+              private commandResourceService: CommandResourceService,
+              private diractionService:DirectionsService) {
 
   }
   signup() {
@@ -36,8 +38,8 @@ export class SignUpPage implements OnInit {
         this.keycloakService.createAccount(user, this.password,
           (res) => {
             console.log('keycloak user ', res);
-            loader.dismiss();
             this.createDriver();
+            loader.dismiss();
           },
           (err) => {
             loader.dismiss();
@@ -53,24 +55,23 @@ export class SignUpPage implements OnInit {
 
   createDriver() {
 
+    this.diractionService.getCurrentLocation().subscribe((resul:any)=>{
     this.keycloakService.authenticate({ username: this.username, password: this.password },
       () => {
-        // tslint:disable-next-line: max-line-length
-        this.commandResourceService.createDriverIfNotExistUsingPOST({idpcode: this.username, firstName: this.firstName, mobileNumber: this.phone}).subscribe(res => {
-          console.log('created user in microservice ', res);
-          this.keycloakService.logout();
-          this.navCtrl.navigateForward('/login');
-        },
-        err => {
-          console.log('created user in microservice ', err);
-        });
+          this.commandResourceService.createDriverIfNotExistUsingPOST({idpcode: this.username,
+            firstName: this.firstName, mobileNumber: this.phone,location:''}).subscribe(res => {
+           console.log('created user in microservice ', res);
+           this.keycloakService.logout();
+           this.navCtrl.navigateForward('/login');
+         },
+         err => {
+           console.log('created user in microservice ', err);
+         });
+        // });
       },
       () => {
         this.util.createToast('an error occured');
       });
+  });
   }
-
-
 }
-
-

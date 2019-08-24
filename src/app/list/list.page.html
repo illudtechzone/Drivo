@@ -11,7 +11,7 @@
 
 <ion-content>
   <ion-list *ngFor="let request of rideRequests" >
-    <app-ride-request *ngIf="request.destination!=null && request.pickUp!=null" [request]="request"></app-ride-request>
+    <app-ride-request *ngIf="request.destination!=null && request.pickUp!=null && request.taskName==='Choose driver'" [request]="request"></app-ride-request>
   </ion-list>
 
 </ion-content>

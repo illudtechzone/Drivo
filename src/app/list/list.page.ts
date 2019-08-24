@@ -13,10 +13,14 @@ export class ListPage implements OnInit {
 
    rideRequests: any[] = [{}];
   constructor(private queryResourceService: QueryResourceService,
-    private util:UtilService) {
+              private util: UtilService) {
   }
 
   ngOnInit() {
+
+  }
+  
+  ionViewWillEnter(){
     this.getAllRideRequests();
 
   }
@@ -24,11 +28,33 @@ export class ListPage implements OnInit {
   // navigate(item) {
   //   this.router.navigate(['/list', JSON.stringify(item)]);
   // }
+
+//   getAllRideRequests() {
+//     this.util.createLoader()
+//       .then(loader => {
+//         loader.present();
+//         let request: any [];
+//         this.queryResourceService.getAllOpenBookingsUsingGET({}).subscribe(
+//       result => {
+//         console.log('getting all bookings', result);
+//         this.rideRequests = result;
+//         console.log(' array getting all bookings', this.rideRequests);
+//         loader.dismiss();
+//       },
+//       err => {
+//         console.log('err getting all bookings', err);
+//         loader.dismiss();
+//       }
+//     );
+//   });
+// }
+
   getAllRideRequests() {
     this.util.createLoader()
       .then(loader => {
-    let request: any [];
-    this.queryResourceService.getAllOpenBookingsUsingGET({}).subscribe(
+        loader.present();
+        let request: any [];
+        this.queryResourceService.getAllPendingBookingsUsingGET({}).subscribe(
       result => {
         console.log('getting all bookings', result);
         this.rideRequests = result;

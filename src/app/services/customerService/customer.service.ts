@@ -8,11 +8,24 @@ import { Injectable } from '@angular/core';
 export class CustomerService {
   private riderDto : RiderDTO={};
   private riderLocationInfo:any={};
+
+  private invoice:any={};
   constructor() { }
   setRiderLocationInfo(riderLocation :any){
     this.riderLocationInfo = riderLocation;
   }
   getRiderLocationInfo():any{
     return this.riderLocationInfo;
+  }
+
+  setInvoice(invoice :any){
+
+    this.invoice=invoice;
+
+  }
+
+  getInvoice()
+  {
+    
   }
 }

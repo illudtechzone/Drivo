@@ -2,6 +2,7 @@ import { CustomerService } from './../../services/customerService/customer.servi
 import { Component, OnInit, Input } from '@angular/core';
 import { CommandResourceService, QueryResourceService } from 'src/app/api/services';
 import { NavController } from '@ionic/angular';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
   selector: 'app-ride-request',
@@ -13,7 +14,8 @@ export class RideRequestComponent implements OnInit {
   constructor(private commandResource: CommandResourceService,
               private navCtrl: NavController,
               private queryResource: QueryResourceService,
-              private customerService: CustomerService
+              private customerService: CustomerService,
+              private util: UtilService
               ) { }
  @Input()
 request: any;
@@ -38,12 +40,18 @@ taskId = '';
   }
 
   sentResponse(response: any) {
-     this.commandResource.driverResponseUsingPOST({taskId: this.taskId, driverInfo: {status: response}}).subscribe(result => {
-           console.log('sucess senting Response ', result);
-           this.navCtrl.navigateForward('/startride');
+    this.util.createLoader()
+    .then(loader => {
+      loader.present();
+      this.commandResource.driverResponseUsingPOST({taskId: this.taskId, driverInfo: {status: response}}).subscribe(result => {
+        loader.dismiss();
+        console.log('sucess senting Response ', result);
+        this.navCtrl.navigateForward('/startride');
          },
          err => {
+           loader.dismiss();
            console.log('error accepting request ', err);
          });
+  });
   }
 }
