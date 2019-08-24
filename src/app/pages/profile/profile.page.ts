@@ -1,5 +1,6 @@
 import { CurrentUserService } from './../../services/current-user.service';
 import { Component, OnInit } from '@angular/core';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,7 @@ export class ProfilePage implements OnInit {
     console.log('readonly = ',this.user.firstName);
   }
 
-  constructor(private currentUserService: CurrentUserService) { }
+  constructor(private currentUserService: CurrentUserService,private notification: NotificationService) { }
 
   ngOnInit() {
 

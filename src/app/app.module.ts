@@ -18,6 +18,8 @@ import { UtilService } from './services/util.service';
 import { ConfigsModule } from './configs/configs.module';
 import { IonicStorageModule } from '@ionic/storage';
 import { AuthInterceptor } from './services/security/auth-interceptor';
+import { NotificationService } from './services/notification.service';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -43,7 +45,11 @@ import { AuthInterceptor } from './services/security/auth-interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    NotificationService,
+    LocalNotifications
+
+
   ],
   bootstrap: [AppComponent]
 })
