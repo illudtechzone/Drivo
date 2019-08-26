@@ -9,19 +9,19 @@ import { NotificationService } from '../services/notification.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit{
-  status : boolean=false;
+export class HomePage implements OnInit {
+  status = false;
 mapCanvas: GoogleMap;
 lat = 10.754090;
 lon = 76.547018;
-  constructor(private geoLocation: Geolocation,private accountResource: AccountResourceService,private notification: NotificationService) {}
+  constructor(private geoLocation: Geolocation, private accountResource: AccountResourceService,
+              private notification: NotificationService) {}
 
 
-  ionViewWillEnter()
-  {
+  ionViewWillEnter() {
     console.log('ion View DId Load method');
-    this.accountResource.getAccountUsingGET().subscribe(data=>{
-      console.log("Account Details"+data.login);
+    this.accountResource.getAccountUsingGET().subscribe(data => {
+      console.log('Account Details' + data.login);
       this.notification.initializeWebSocketConnection(data.login);
     });
   }
@@ -29,13 +29,13 @@ lon = 76.547018;
   ngOnInit() {
 
     console.log('ion Init method');
-      this.currentLocation();
+    this.currentLocation();
 
 
     }
 
 
-    currentLocation(){
+    currentLocation() {
       this.geoLocation.getCurrentPosition().then((resp) => {
 
         this.lat = resp.coords.latitude;
@@ -78,5 +78,5 @@ lon = 76.547018;
       marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
       alert('clicked');
     });
-      }
+  }
 }
