@@ -1,7 +1,7 @@
 import { CustomerService } from './../../services/customerService/customer.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { CommandResourceService, QueryResourceService } from 'src/app/api/services';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { UtilService } from 'src/app/services/util.service';
 
 @Component({
@@ -15,7 +15,8 @@ export class RideRequestComponent implements OnInit {
               private navCtrl: NavController,
               private queryResource: QueryResourceService,
               private customerService: CustomerService,
-              private util: UtilService
+              private util: UtilService,
+              private modalController: ModalController
               ) { }
  @Input()
 request: any;
@@ -24,6 +25,7 @@ taskId = '';
   ngOnInit() {}
 
   chooseResponse(response: any) {
+    this.modalController.dismiss();
     console.log('process instance id =', this.request.trackingProcessinstanceId);
     this.queryResource.getTasksUsingGET({processInstanceId: this.request.trackingProcessinstanceId}).subscribe(result => {
       console.log('confirmed     fully', result);

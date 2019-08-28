@@ -1,10 +1,12 @@
-import { RideDTO } from './../../../../src/app/api/models/ride-dto';
+
 import { Injectable } from '@angular/core';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
-import { Platform, ModalController } from '@ionic/angular';
+import { Platform, ModalController, NavController } from '@ionic/angular';
 import { RideRequestComponent } from '../components/ride-request/ride-request.component';
+import { RideDTO } from '../api/models';
+import { Observer, Observable, BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,16 +16,20 @@ export class NotificationService {
   private title = 'WebSockets chat';
   private stompClient;
 
-  constructor( private localNotifications: LocalNotifications, private platform: Platform,private modalController: ModalController
+  constructor( private localNotifications: LocalNotifications, private platform: Platform, private navController: NavController
 
   ) {
+    // tslint:disable-next-line:no-unused-expression
 
   }
-display()
-{
-  console.log("hello world");
+  observer: Observer<any>;
+
+  createObservable() : Observable<any> {
+    return new Observable(observer => {
+      this.observer = observer;
+    });
 }
-initializeWebSocketConnection(userName ) {
+ initializeWebSocketConnection(userName ):Observable<any>  {
 
 
   const ws = new SockJS(this.serverUrl);
@@ -31,25 +37,22 @@ initializeWebSocketConnection(userName ) {
   const that = this;
 
 
+
   this.stompClient.connect({login: userName }, function(frame) {
+
     that.stompClient.subscribe('/user/topic/reply', message => {
       if (message.body) {
-        
+
 
           // tslint:disable-next-line: no-unused-expression
          let rideDto: RideDTO=message.body;
-          let request;
-          request.distance=''+rideDto.totalDistance;
+          let request:any={};
+          request.distance='10'
           request.pickUp=rideDto.addressStartingPoint;
           request.destination=rideDto.addressDestination;
-          let requestModal = this.modalController.create(RideRequestComponent, { request: request});
-          requestModal.present();
 
+          this.observer.next(request);
 
-
-
-
-      
 
       }
 
@@ -58,5 +61,10 @@ initializeWebSocketConnection(userName ) {
 
 });
 });
+
+return this.createObservable();
+
 }
+
+
 }

@@ -20,9 +20,13 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AuthInterceptor } from './services/security/auth-interceptor';
 import { NotificationService } from './services/notification.service';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { WebsocketService } from './services/websocket.service';
+import { RideRequestComponent } from './components/ride-request/ride-request.component';
+import { ComponentsModule } from './components/components.module';
+import { DriverService } from './services/driver.service';
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
+  entryComponents: [RideRequestComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -33,6 +37,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
       name: '__mydb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
+    ComponentsModule
   ],
   providers: [
     Camera,
@@ -47,7 +52,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
       multi: true
     },
     NotificationService,
-    LocalNotifications
+    LocalNotifications,
+    WebsocketService,
+    DriverService
 
 
   ],

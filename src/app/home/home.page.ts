@@ -3,7 +3,11 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GoogleMap, Environment, GoogleMapOptions, GoogleMaps, Marker, GoogleMapsEvent} from '@ionic-native/google-maps';
 
 import { AccountResourceService } from '../api/services';
-import { NotificationService } from '../services/notification.service';
+import { WebsocketService } from '../services/websocket.service';
+import { ModalController } from '@ionic/angular';
+import { RideRequestComponent } from '../components/ride-request/ride-request.component';
+import { RideDTO } from '../api/models';
+import { DriverService } from '../services/driver.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -15,21 +19,44 @@ mapCanvas: GoogleMap;
 lat = 10.754090;
 lon = 76.547018;
   constructor(private geoLocation: Geolocation, private accountResource: AccountResourceService,
-              private notification: NotificationService) {}
+              private websocket: WebsocketService,private modalController:ModalController,
+              private driverService: DriverService) {}
 
 
   ionViewWillEnter() {
     console.log('ion View DId Load method');
     this.accountResource.getAccountUsingGET().subscribe(data => {
       console.log('Account Details' + data.login);
-      this.notification.initializeWebSocketConnection(data.login);
+      this.driverService.updateDriverDetails(data.login);
+      this.websocket.initializeWebSocketConnection(data.login);
+      this.websocket.onMessage('/user/topic/reply').subscribe(
+        (rideDto: RideDTO)=>{
+          let request:any={};
+          request.distance='10'
+          request.pickUp=rideDto.addressStartingPoint;
+          request.destination=rideDto.addressDestination;
+          this.openModal(request);
+
+        }
+      );
+
     });
   }
+  async openModal(req) {
+    const modal = await this.modalController.create({
+      component: RideRequestComponent,
+      componentProps: {
+        request:req
+      }
+    });
 
+   await modal.present();
+  }
   ngOnInit() {
 
     console.log('ion Init method');
     this.currentLocation();
+
 
 
     }
