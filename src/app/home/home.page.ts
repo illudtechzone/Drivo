@@ -11,6 +11,7 @@ import { RideRequestComponent } from '../components/ride-request/ride-request.co
 import { RideDTO, RideDtoWrapper } from '../api/models';
 import { DriverService } from '../services/driver.service';
 import { NotificationService } from '../services/notification.service';
+import { Platform } from '@ionic/angular';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -25,9 +26,10 @@ export class HomePage implements OnInit {
               private notification: NotificationService,
               private androidPermissions: AndroidPermissions,
               private locationAccuracy: LocationAccuracy,
-               private websocket: WebsocketService,
-               private modalController:ModalController,
-              private driverService: DriverService) {
+              private websocket: WebsocketService,
+              private modalController: ModalController,
+              private driverService: DriverService,
+              private platform: Platform) {
 
       this.locationCoords = {
         latitude: '',
@@ -47,34 +49,37 @@ export class HomePage implements OnInit {
       this.driverService.updateDriverDetails(data.login);
       this.websocket.initializeWebSocketConnection(data.login);
       this.websocket.onMessage('/user/topic/reply').subscribe(
-        (wrapper: RideDtoWrapper)=>{
-          let request:any={};
-          request.distance='10'
-          request.pickUp=wrapper.rideDTO.addressStartingPoint;
-          request.destination=wrapper.rideDTO.addressDestination;
-          this.openModal(request,wrapper.processInstanceId);
+        (wrapper: RideDtoWrapper) => {
+          const request: any = {};
+          request.distance = '10';
+          request.pickUp = wrapper.rideDTO.addressStartingPoint;
+          request.destination = wrapper.rideDTO.addressDestination;
+          this.openModal(request, wrapper.processInstanceId);
 
         }
       );
 
     });
   }
-  async openModal(req,id) {
+  async openModal(req, id) {
     const modal = await this.modalController.create({
       component: RideRequestComponent,
       componentProps: {
-        request:req,
-        processInstanceId:id
+        request: req,
+        processInstanceId: id
       }
     });
 
-   await modal.present();
+    await modal.present();
   }
   ngOnInit() {
 
     console.log('ion Init method');
-    this.checkGPSPermission();
-
+    if (this.platform.is('android')) {
+      this.checkGPSPermission();
+    } else {
+      this.getLocationCoordinates();
+    }
 
 
   }
