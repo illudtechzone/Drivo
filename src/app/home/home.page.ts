@@ -5,6 +5,11 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GoogleMap, Environment, GoogleMapOptions, GoogleMaps, Marker, GoogleMapsEvent } from '@ionic-native/google-maps';
 
 import { AccountResourceService } from '../api/services';
+import { WebsocketService } from '../services/websocket.service';
+import { ModalController } from '@ionic/angular';
+import { RideRequestComponent } from '../components/ride-request/ride-request.component';
+import { RideDTO, RideDtoWrapper } from '../api/models';
+import { DriverService } from '../services/driver.service';
 import { NotificationService } from '../services/notification.service';
 @Component({
   selector: 'app-home',
@@ -19,7 +24,10 @@ export class HomePage implements OnInit {
   constructor(private geoLocation: Geolocation, private accountResource: AccountResourceService,
               private notification: NotificationService,
               private androidPermissions: AndroidPermissions,
-              private locationAccuracy: LocationAccuracy) {
+              private locationAccuracy: LocationAccuracy,
+               private websocket: WebsocketService,
+               private modalController:ModalController,
+              private driverService: DriverService) {
 
       this.locationCoords = {
         latitude: '',
@@ -31,18 +39,42 @@ export class HomePage implements OnInit {
     }
 
 
+
   ionViewWillEnter() {
     console.log('ion View DId Load method');
     this.accountResource.getAccountUsingGET().subscribe(data => {
       console.log('Account Details' + data.login);
-      this.notification.initializeWebSocketConnection(data.login);
+      this.driverService.updateDriverDetails(data.login);
+      this.websocket.initializeWebSocketConnection(data.login);
+      this.websocket.onMessage('/user/topic/reply').subscribe(
+        (wrapper: RideDtoWrapper)=>{
+          let request:any={};
+          request.distance='10'
+          request.pickUp=wrapper.rideDTO.addressStartingPoint;
+          request.destination=wrapper.rideDTO.addressDestination;
+          this.openModal(request,wrapper.processInstanceId);
+
+        }
+      );
+
     });
   }
+  async openModal(req,id) {
+    const modal = await this.modalController.create({
+      component: RideRequestComponent,
+      componentProps: {
+        request:req,
+        processInstanceId:id
+      }
+    });
 
+   await modal.present();
+  }
   ngOnInit() {
 
     console.log('ion Init method');
     this.checkGPSPermission();
+
 
 
   }

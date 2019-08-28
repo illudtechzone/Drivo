@@ -19,6 +19,7 @@ export class SignUpPage implements OnInit {
   password: string;
   email: string;
   phone: number;
+  lastName= '';
 
   ngOnInit(): void {
 
@@ -27,10 +28,11 @@ export class SignUpPage implements OnInit {
   constructor(private navCtrl: NavController, private util: UtilService,
               private keycloakService: KeycloakService,
               private commandResourceService: CommandResourceService,
-              private diractionService:DirectionsService) {
+              private diractionService: DirectionsService) {
 
   }
   signup() {
+    console.log('emailll>>>>>>', this.email);
     this.util.createLoader()
       .then(loader => {
         loader.present();
@@ -49,17 +51,21 @@ export class SignUpPage implements OnInit {
               this.util.createToast('Cannot Register User. Please Try Later');
             }
           });
-          // Remove this later
+       
         });
   }
 
   createDriver() {
 
-    this.diractionService.getCurrentLocation().subscribe((resul:any)=>{
+
     this.keycloakService.authenticate({ username: this.username, password: this.password },
       () => {
+
           this.commandResourceService.createDriverIfNotExistUsingPOST({idpcode: this.username,
-            firstName: this.firstName, mobileNumber: this.phone,location:''}).subscribe(res => {
+            firstName: this.firstName,
+            lastName: this.lastName,
+
+          }).subscribe(res => {
            console.log('created user in microservice ', res);
            this.keycloakService.logout();
            this.navCtrl.navigateForward('/login');
@@ -72,6 +78,6 @@ export class SignUpPage implements OnInit {
       () => {
         this.util.createToast('an error occured');
       });
-  });
+
   }
 }

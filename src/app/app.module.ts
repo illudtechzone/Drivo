@@ -20,12 +20,19 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AuthInterceptor } from './services/security/auth-interceptor';
 import { NotificationService } from './services/notification.service';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
+
+import { WebsocketService } from './services/websocket.service';
+import { RideRequestComponent } from './components/ride-request/ride-request.component';
+import { ComponentsModule } from './components/components.module';
+import { DriverService } from './services/driver.service';
+
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
+  entryComponents: [RideRequestComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -36,6 +43,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
       name: '__mydb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']
     }),
+    ComponentsModule
   ],
   providers: [
     Camera,
@@ -52,7 +60,9 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
       multi: true
     },
     NotificationService,
-    LocalNotifications
+    LocalNotifications,
+    WebsocketService,
+    DriverService
 
 
   ],
