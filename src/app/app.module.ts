@@ -20,6 +20,9 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AuthInterceptor } from './services/security/auth-interceptor';
 import { NotificationService } from './services/notification.service';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -36,6 +39,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
   ],
   providers: [
     Camera,
+    AndroidPermissions,
+    LocationAccuracy,
     UtilService,
     Geolocation,
     StatusBar,
