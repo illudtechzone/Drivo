@@ -30,7 +30,7 @@ taskId = '';
     .then(loader => {
 
       loader.present();
-      this.modalController.dismiss();
+
       console.log('process instance id =', this.request.trackingProcessinstanceId);
       this.queryResource.getTasksUsingGET({processInstanceId: this.request.trackingProcessinstanceId}).subscribe(result => {
       console.log('confirmed     fully', result);
@@ -39,7 +39,7 @@ taskId = '';
       this.customerService.setRiderLocationInfo(this.request);
       this.sentResponse(response);
       loader.dismiss();
-      
+
     },
     err => {
       console.log('error making accept ride', err);
@@ -57,6 +57,7 @@ taskId = '';
         loader.dismiss();
         console.log('sucess senting Response ', result);
         this.navCtrl.navigateForward('/startride');
+        this.modalController.dismiss();
          },
          err => {
            loader.dismiss();

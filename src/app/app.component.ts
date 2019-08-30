@@ -5,6 +5,9 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { JwksValidationHandler, OAuthService, AuthConfig } from 'angular-oauth2-oidc';
 
+import { JhiWebSocketService } from './services/jhi-web-socket.service';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -42,11 +45,17 @@ export class AppComponent {
     private oauthService: OAuthService,
     private toastController: ToastController,
     private navCtrl: NavController,
+    private websocketService: JhiWebSocketService,
+    public backgroundMode: BackgroundMode
   ) {
     this.initializeApp();
   }
   logout() {
     console.log('Logout clicked');
+    this.websocketService.disconnect();
+    if (this.websocketService.stompClient && this.websocketService.stompClient.connected) {
+      this.websocketService.disconnect();
+  }
     this.oauthService.logOut();
     this.presentToastLogout();
     this.navCtrl.navigateRoot('/login');
@@ -64,6 +73,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.backgroundMode.enable();
     });
   }
 }

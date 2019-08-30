@@ -10,18 +10,32 @@ import { filter, first, switchMap  } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class WebsocketService  implements OnDestroy {
-  private client: Client;
-  private state: BehaviorSubject<SocketClientState>;
-  private serverUrl = ' //35.232.29.128:8082/websocket/tracker';
   constructor() {
     this.client = over(new SockJS(this.serverUrl));
     this.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
 
    }
-initializeWebSocketConnection(userName ) {
-  console.log("initializeWebSocketConnection method");
-  this.client.connect({login: userName}, () => {
-    this.state.next(SocketClientState.CONNECTED);
+  private client: Client;
+  private state: BehaviorSubject<SocketClientState>;
+  private serverUrl = ' //35.232.29.128:8082/websocket/tracker';
+
+static jsonHandler(message: Message): any {
+  return JSON.parse(message.body);
+}
+
+static textHandler(message: Message): string {
+  return message.body;
+}
+ initializeWebSocketConnection(userName ) {
+
+
+    console.log('initializeWebSocketConnection method' + userName);
+    this.client.connect({login: userName}, () => {
+
+      this.state.next(SocketClientState.CONNECTED);
+
+
+
   });
 }
 
@@ -32,11 +46,17 @@ connect(): Observable<Client> {
     });
   });
 }
+disconnect()
+{
+
+ console.log("Web socket disconnect");
+  this.client.disconnect();
+}
 ngOnDestroy() {
   this.connect().pipe(first()).subscribe(inst => inst.disconnect(null));
 }
-onMessage(topic: string, handler = WebsocketService.jsonHandler): Observable<any> {
-  console.log("onMessage method");
+ onMessage(topic: string, handler = WebsocketService.jsonHandler): Observable<any> {
+  console.log('onMessage method');
   return this.connect().pipe(first(), switchMap(inst => {
     return new Observable<any>(observer => {
       const subscription: StompSubscription = inst.subscribe(topic, message => {
@@ -49,14 +69,6 @@ onMessage(topic: string, handler = WebsocketService.jsonHandler): Observable<any
 
 onPlainMessage(topic: string): Observable<string> {
   return this.onMessage(topic, WebsocketService.textHandler);
-}
-
-static jsonHandler(message: Message): any {
-  return JSON.parse(message.body);
-}
-
-static textHandler(message: Message): string {
-  return message.body;
 }
 
 }

@@ -29,6 +29,7 @@ import { WebsocketService } from './services/websocket.service';
 import { RideRequestComponent } from './components/ride-request/ride-request.component';
 import { ComponentsModule } from './components/components.module';
 import { DriverService } from './services/driver.service';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -62,7 +63,8 @@ import { DriverService } from './services/driver.service';
     NotificationService,
     LocalNotifications,
     WebsocketService,
-    DriverService
+    DriverService,
+    BackgroundMode
 
 
   ],

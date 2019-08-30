@@ -12,6 +12,9 @@ import { RideDTO, RideDtoWrapper } from '../api/models';
 import { DriverService } from '../services/driver.service';
 import { NotificationService } from '../services/notification.service';
 import { Platform } from '@ionic/angular';
+import { JhiWebSocketService } from '../services/jhi-web-socket.service';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -23,13 +26,15 @@ export class HomePage implements OnInit {
   locationCoords: any;
   timetest: any;
   constructor(private geoLocation: Geolocation, private accountResource: AccountResourceService,
-              private notification: NotificationService,
               private androidPermissions: AndroidPermissions,
               private locationAccuracy: LocationAccuracy,
-              private websocket: WebsocketService,
+              private websocket: JhiWebSocketService,
               private modalController: ModalController,
               private driverService: DriverService,
-              private platform: Platform) {
+              private platform: Platform,
+              private localNotifications: LocalNotifications,
+              private backgroundMode: BackgroundMode
+              ) {
 
       this.locationCoords = {
         latitude: '',
@@ -44,22 +49,7 @@ export class HomePage implements OnInit {
 
   ionViewWillEnter() {
     console.log('ion View DId Load method');
-    this.accountResource.getAccountUsingGET().subscribe(data => {
-      console.log('Account Details' + data.login);
-      this.driverService.updateDriverDetails(data.login);
-      this.websocket.initializeWebSocketConnection(data.login);
-      this.websocket.onMessage('/user/topic/reply').subscribe(
-        (wrapper: RideDtoWrapper) => {
-          const request: any = {};
-          request.distance = '10';
-          request.pickUp = wrapper.rideDTO.addressStartingPoint;
-          request.destination = wrapper.rideDTO.addressDestination;
-          this.openModal(request, wrapper.processInstanceId);
 
-        }
-      );
-
-    });
   }
   async openModal(req, id) {
     const modal = await this.modalController.create({
@@ -75,11 +65,45 @@ export class HomePage implements OnInit {
   ngOnInit() {
 
     console.log('ion Init method');
-    if (this.platform.is('android')) {
-      this.checkGPSPermission();
-    } else {
-      this.getLocationCoordinates();
-    }
+    this.accountResource.getAccountUsingGET().subscribe(data => {
+      console.log('Account Details' + data.login);
+      this.websocket.connect(data.login);
+      this.driverService.updateDriverDetails(data.login);
+      console.log('IOn View Will Enter');
+      this.websocket.subscribe();
+      this.websocket.receive().subscribe(
+           wrapper =>
+           {
+              const request: any = {};
+              request.distance = '10';
+              request.pickUp = wrapper.rideDTO.addressStartingPoint;
+              request.destination = wrapper.rideDTO.addressDestination;
+              if(this.backgroundMode.isEnabled)
+              {
+                if(this.platform.is('android'))
+                {
+                let list: string[] = ['From : '+request.pickUp, 'To : '+request.destination ];
+                this.localNotifications.schedule({
+                  title: 'Drivo',
+                  text: list,
+                  foreground: true,
+                  wakeup: true,
+                  lockscreen: true,
+                  sound: 'file://assets/sounds/beep.mp3'
+                });
+              }
+              }
+              this.openModal(request, wrapper.processInstanceId);
+           });
+          },
+          error=>
+          {if (this.websocket.stompClient && this.websocket.stompClient.connected) {
+            this.websocket.disconnect();
+        }});
+
+
+
+
 
 
   }
