@@ -20,12 +20,12 @@ export class RideRequestComponent implements OnInit {
               ) { }
  @Input()
 request: any;
-@Input()
-processInstanceId: string;
+
 taskId = '';
   ngOnInit() {}
 
-  chooseResponse(response: any) {
+  chooseResponse(response: string) {
+    console.log(" choose Response isssssssss::: "+response);
     this.util.createLoader()
     .then(loader => {
 
@@ -49,15 +49,24 @@ taskId = '';
   });
   }
 
-  sentResponse(response: any) {
+  sentResponse(response: string) {
     this.util.createLoader()
     .then(loader => {
       loader.present();
       this.commandResource.driverResponseUsingPOST({taskId: this.taskId, driverInfo: {status: response}}).subscribe(result => {
-        loader.dismiss();
+
         console.log('sucess senting Response ', result);
+        if(response =='accept')
+        {
         this.navCtrl.navigateForward('/startride');
+
+        }
+        else
+        {
+          this.navCtrl.navigateForward('/home');
+        }
         this.modalController.dismiss();
+        loader.dismiss();
          },
          err => {
            loader.dismiss();

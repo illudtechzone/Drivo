@@ -12,12 +12,12 @@ declare var google: any;
   providedIn: 'root'
 })
 export class DirectionsService {
-  customer = this.customerService.getRiderLocationInfo();
+  customer:any;
   constructor(private http: HttpClient,
               private customerService: CustomerService,
               private geoLocation:Geolocation) { }
   getDiractions(): Promise<any> {
-
+        this.customer= this.customerService.getRiderLocationInfo();
         const directionsService = new google.maps.DirectionsService();
         let directionsRenderer = new google.maps.DirectionsRenderer();
         return new Promise((resolve) => {

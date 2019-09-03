@@ -33,16 +33,7 @@ lat = 10.754090;
 lon = 76.547018;
 riderLocationInfo: any = {};
 ngOnInit() {
-  this.riderLocationInfo = this.customerService.getRiderLocationInfo();
-  console.log('rider location info ', this.riderLocationInfo);
-  this.rideStatus = 'reached';
-  this.directionsService.getDiractions().then(
-    (data: any) => {
-      this.routePoints = data;
-      console.log('>>>got route points >>>>', data);
-      console.log('>>>got route points >>>>', this.routePoints);
-    }
-    );
+
 }
 
 
@@ -52,7 +43,18 @@ ngOnInit() {
   ionViewWillEnter() {
 
     console.log('ion view will enter method');
-    this.currentLocation();
+    this.riderLocationInfo = this.customerService.getRiderLocationInfo();
+    console.log('rider location info ', this.riderLocationInfo);
+    this.rideStatus = 'reached';
+    this.directionsService.getDiractions().then(
+      (data: any) => {
+        this.routePoints = data;
+        console.log('>>>got route points >>>>', data);
+        console.log('>>>got route points >>>>', this.routePoints);
+        this.currentLocation();
+      }
+      );
+
     }
     currentLocation() {
       this.geoLocation.getCurrentPosition().then(resp => {

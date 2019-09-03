@@ -51,12 +51,11 @@ export class HomePage implements OnInit {
     console.log('ion View DId Load method');
 
   }
-  async openModal(req, id) {
+  async openModal(req) {
     const modal = await this.modalController.create({
       component: RideRequestComponent,
       componentProps: {
-        request: req,
-        processInstanceId: id
+        request: req
       }
     });
 
@@ -65,6 +64,11 @@ export class HomePage implements OnInit {
   ngOnInit() {
 
     console.log('ion Init method');
+    if (this.platform.is('android')) {
+      this.checkGPSPermission();
+    } else {
+      this.getLocationCoordinates();
+    }
     this.accountResource.getAccountUsingGET().subscribe(data => {
       console.log('Account Details' + data.login);
       this.websocket.connect(data.login);
@@ -78,23 +82,27 @@ export class HomePage implements OnInit {
               request.distance = '10';
               request.pickUp = wrapper.rideDTO.addressStartingPoint;
               request.destination = wrapper.rideDTO.addressDestination;
-              if(this.backgroundMode.isEnabled)
-              {
-                if(this.platform.is('android'))
-                {
-                let list: string[] = ['From : '+request.pickUp, 'To : '+request.destination ];
-                this.localNotifications.schedule({
-                  title: 'Drivo',
-                  text: list,
-                  foreground: true,
-                  wakeup: true,
-                  lockscreen: true,
-                  sound: 'file://assets/sounds/beep.mp3'
-                });
-              }
-              }
-              this.openModal(request, wrapper.processInstanceId);
-           });
+              request.trackingProcessinstanceId = wrapper.processInstanceId;
+              // if(this.backgroundMode.isActive)
+              // {
+              //   if(this.platform.is('android'))
+              //   {
+              //   let list: string[] = ['From : '+request.pickUp, 'To : '+request.destination ];
+              //   this.localNotifications.schedule({
+              //     title: 'Drivo',
+              //     text: list,
+              //     foreground: true,
+              //     wakeup: true,
+              //     lockscreen: true,
+              //     sound: 'file://assets/sounds/beep.mp3'
+              //   });
+              // }
+              // }
+              // else {
+
+              this.openModal(request);
+           //}
+          });
           },
           error=>
           {if (this.websocket.stompClient && this.websocket.stompClient.connected) {
