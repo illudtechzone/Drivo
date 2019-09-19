@@ -6,6 +6,8 @@ import { GoogleMap, Environment, GoogleMapOptions, GoogleMaps, Marker, GoogleMap
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { UtilService } from 'src/app/services/util.service';
+import { DriverService } from 'src/app/services/driver.service';
+import { RiderDTO } from 'src/app/api/models';
 
 @Component({
   selector: 'app-start-ride',
@@ -23,7 +25,8 @@ routePoints: any[] = [];
               private commandResourceService: CommandResourceService,
               private queryResourceService: QueryResourceService,
               private directionsService: DirectionsService,
-              private util: UtilService) {
+              private util: UtilService,
+              private driverService: DriverService) {
 
     }
 rideStatus = 'reached';
@@ -125,9 +128,17 @@ startRide() {
     console.log('sucess geting task ', result);
     this.commandResourceService.startRideUsingPOST({taskId: result.data[0].id,
       startRide: {status: 'ridestarted'}}).subscribe((result1: any) => {
-      loader.dismiss();
-      console.log('sucess starting ride ', result1);
-      this.rideStatus = 'inprogress';
+
+
+        this.commandResourceService.sendStatusToCustomerUsingPOST({rideDto: this.driverService.getRideWrapper().rideDTO,
+             status: 'ridestarted'}).toPromise().then(x => {
+                loader.dismiss();
+                console.log('sucess starting ride ', result1);
+                this.rideStatus = 'inprogress';
+              }).catch(err => {
+                  console.log('error on Promise when sending status ');
+                });
+
 
     }, err => {
       loader.dismiss();
@@ -151,10 +162,18 @@ endRide() {
     console.log('sucess geting task ', result);
     this.commandResourceService.rideCompleteUsingPOST({taskId:  result.data[0].id,
       rideComplete: {status: 'ridecompleted'}}).subscribe((result1: any) => {
-        loader.dismiss();
-        console.log('sucess ending ride ', result1);
-        this.rideStatus = 'finish';
-        this.navController.navigateForward('/invoice');
+        this.commandResourceService.sendStatusToCustomerUsingPOST({rideDto: this.driverService.getRideWrapper().rideDTO,
+          status: 'ridecompleted'}).toPromise().then(x => {
+
+            loader.dismiss();
+           console.log('sucess ending ride ', result1);
+           this.rideStatus = 'finish';
+          this.navController.navigateForward('/invoice');
+           }).catch(err => {
+               console.log('error on Promise when sending status ');
+               this.navController.navigateForward('/invoice');
+             });
+
     }, err => {
       loader.dismiss();
 

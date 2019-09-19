@@ -51,11 +51,13 @@ export class HomePage implements OnInit {
     console.log('ion View DId Load method');
 
   }
-  async openModal(req) {
-    const modal = await this.modalController.create({
+  async openModal(req,wrapper) {
+  this.driverService.setRideWrapper(wrapper);
+       const modal = await this.modalController.create({
       component: RideRequestComponent,
       componentProps: {
-        request: req
+        request: req,
+        wrapper: wrapper
       }
     });
 
@@ -79,10 +81,13 @@ export class HomePage implements OnInit {
            wrapper =>
            {
               const request: any = {};
-              request.distance = '10';
+              request.distance = wrapper.rideDTO.totalDistance;
               request.pickUp = wrapper.rideDTO.addressStartingPoint;
               request.destination = wrapper.rideDTO.addressDestination;
+              request.fare=wrapper.rideDTO.fare;
               request.trackingProcessinstanceId = wrapper.processInstanceId;
+
+
               // if(this.backgroundMode.isActive)
               // {
               //   if(this.platform.is('android'))
@@ -100,7 +105,7 @@ export class HomePage implements OnInit {
               // }
               // else {
 
-              this.openModal(request);
+              this.openModal(request,wrapper );
            //}
           });
           },

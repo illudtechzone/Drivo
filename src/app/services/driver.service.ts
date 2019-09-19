@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { QueryResourceService, CommandResourceService, AccountResourceService } from '../api/services';
-import { DriverDTO } from '../api/models';
+import { DriverDTO, RideDtoWrapper } from '../api/models';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Injectable({
@@ -15,9 +15,9 @@ export class DriverService {
               private accountResource: AccountResourceService,
               private geoLocation: Geolocation) { }
      driverDTO: DriverDTO = {};
-     online:boolean = true;
-     occupied:boolean=false;
-
+     online = true;
+     occupied = false;
+      wrapper: RideDtoWrapper;
     updateDriverDetails(userName) {
 
       this.driverDTO.iDPcode = userName;
@@ -27,6 +27,14 @@ export class DriverService {
           this.updateDriverLocation();
         }
       );
+    }
+    setRideWrapper(wrapper: RideDtoWrapper)
+    {
+      this.wrapper=wrapper;
+    }
+    getRideWrapper()
+    {
+      return this.wrapper;
     }
 
 
@@ -54,7 +62,7 @@ export class DriverService {
       this.driverDTO.status = status;
       this.commandResource.updateDriverUsingPUT(this.driverDTO).subscribe(data => {
         console.log('Status Updated ' + data);
-        this.online=data.status;
+        this.online = data.status;
       });
     }
   }

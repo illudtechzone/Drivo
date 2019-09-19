@@ -3,13 +3,13 @@
       <ion-title>invoice</ion-title>
     </ion-toolbar>
   </ion-header>
-  
+
   <ion-content>
-  
+
     <ion-card>
       <ion-card-header>
         <ion-card-title text-center>
-          charge
+          Charge
         </ion-card-title>
         <ion-card-content>
             <ion-item lines="none">
@@ -27,18 +27,17 @@
                 <ion-text slot="end">{{travelInfo.distance}}</ion-text>
               </ion-item>
               <ion-item>
-                    <ion-text slot="start">Totel cost : </ion-text>
-                <ion-text slot="end">{{travelInfo.distance*4}} rs</ion-text> 
+                    <ion-text slot="start">Fare : </ion-text>
+                <ion-text slot="end">Rs {{travelInfo.fare}}</ion-text>
               </ion-item>
               <div>
                 <ion-button expand="full" (click) = cashCollected()>
-              
+
                   cash collected
                 </ion-button>
               </div>
         </ion-card-content>
       </ion-card-header>
     </ion-card>
-  
+
   </ion-content>
-  

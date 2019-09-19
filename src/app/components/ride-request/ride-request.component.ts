@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CommandResourceService, QueryResourceService } from 'src/app/api/services';
 import { NavController, ModalController } from '@ionic/angular';
 import { UtilService } from 'src/app/services/util.service';
+import { DriverService } from 'src/app/services/driver.service';
 
 @Component({
   selector: 'app-ride-request',
@@ -16,10 +17,14 @@ export class RideRequestComponent implements OnInit {
               private queryResource: QueryResourceService,
               private customerService: CustomerService,
               private util: UtilService,
-              private modalController: ModalController
+              private modalController: ModalController,
+              private driverService: DriverService
               ) { }
  @Input()
 request: any;
+
+@Input()
+wrapper: any;
 
 taskId = '';
   ngOnInit() {}
@@ -58,7 +63,17 @@ taskId = '';
         console.log('sucess senting Response ', result);
         if(response =='accept')
         {
-        this.navCtrl.navigateForward('/startride');
+          this.driverService.setRideWrapper(this.wrapper);
+          this.commandResource.sendStatusToCustomerUsingPOST({rideDto: this.driverService.getRideWrapper().rideDTO,
+            status: 'accept'}).toPromise().then(x => {
+               loader.dismiss();
+               console.log('Acceoted starting ride ', x);
+               this.navCtrl.navigateForward('/startride');
+             }).catch(err => {
+                 console.log('error on Promise when sending status ');
+                 this.navCtrl.navigateForward('/startride');
+               });
+
 
         }
         else
