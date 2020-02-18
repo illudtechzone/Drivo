@@ -5,27 +5,27 @@
       New Ride
     </ion-text>
   </ion-item>
-   <ion-item lines="none">
-    
+   <ion-item >
+
     <ion-text slot="start">Distance:</ion-text>
     <ion-text slot="end">{{request.distance}}</ion-text>
   </ion-item>
-  <ion-item lines="none">
-    
+  <ion-item >
+
     <ion-text slot="start">From:</ion-text>
     <ion-text slot="end">{{request.pickUp}}</ion-text>
     </ion-item>
 
-    <ion-item lines="none">
-    
+    <ion-item >
+
       <ion-text slot="start">To:</ion-text>
       <ion-text slot="end">{{request.destination}}</ion-text>
     </ion-item>
      <ion-item lines="none">
-    
+
         <ion-button expand="block" slot="start"  color="primary" (click)="chooseResponse('accept')">Confirm</ion-button>
-        
+
         <ion-button expand="block" slot="end"  color="primary" (click)="chooseResponse('reject')">Cancel</ion-button>
-        
+
       </ion-item>
 </ion-card>
